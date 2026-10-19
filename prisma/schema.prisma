@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id           String    @id @default(cuid())
+  username     String    @unique
+  name         String
+  passwordHash String
+  role         String    @default("USER") // "ADMIN" or "USER"
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  challans     Challan[]
+}
+
+model ParticularSuggestion {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Challan {
+  id           String        @id @default(cuid())
+  challanNo    String        @unique // e.g. "ASI-2087"
+  name         String
+  address      String
+  refNo        String?
+  fromName     String        @default("Ms.Shamoly")
+  isReturnable Boolean       @default(true) // true = (Returnable), false = (Not Returnable)
+  senderSign   String        @default("Srabon (01774-109199)")
+  date         DateTime      @default(now())
+  totalQty     Int           @default(0)
+  totalYdsKg   Float         @default(0.0)
+  notes        String?       @default("1) Receive the above goods in good condition.")
+  createdById  String
+  createdBy    User          @relation(fields: [createdById], references: [id])
+  items        ChallanItem[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model ChallanItem {
+  id         String   @id @default(cuid())
+  challanId  String
+  challan    Challan  @relation(fields: [challanId], references: [id], onDelete: Cascade)
+  slNo       Int
+  particular String
+  qty        Int?     @default(0)
+  unit       String?  @default("Pcs") // e.g. Pcs, Box, Poly, etc.
+  ydsKg      Float?   @default(0.0)
+  ydsUnit    String?  @default("yds") // e.g. yds, kg
+  createdAt  DateTime @default(now())
+}
