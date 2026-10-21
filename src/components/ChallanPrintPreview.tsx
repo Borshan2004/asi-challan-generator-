@@ -52,18 +52,8 @@ export default function ChallanPrintPreview({
 
   const formattedDate = formatChallanDate(challan.date);
 
-  // Provide at least 3 display rows for visual balance if user entered 1 or 2 items
-  const displayItems = [...challan.items];
-  while (displayItems.length < 3) {
-    displayItems.push({
-      slNo: displayItems.length + 1,
-      particular: '',
-      qty: null,
-      unit: '',
-      ydsKg: null,
-      ydsUnit: '',
-    });
-  }
+  // Show only the exact items created (no extra padded rows)
+  const displayItems = challan.items;
 
   // Handle native browser print
   const handlePrint = () => {
