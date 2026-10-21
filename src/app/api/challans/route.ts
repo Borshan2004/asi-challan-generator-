@@ -70,6 +70,7 @@ export async function POST(request: Request) {
       fromName = 'Ms.Shamoly',
       isReturnable = true,
       senderSign = 'Srabon (01774-109199)',
+      receiverName,
       notes = '1) Receive the above goods in good condition.',
       items = [],
     } = body;
@@ -115,6 +116,7 @@ export async function POST(request: Request) {
         fromName: fromName.trim(),
         isReturnable: Boolean(isReturnable),
         senderSign: senderSign.trim(),
+        receiverName: receiverName ? receiverName.trim() : null,
         date,
         totalQty,
         totalYdsKg: Math.round(totalYdsKg * 100) / 100,

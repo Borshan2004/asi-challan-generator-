@@ -9,6 +9,7 @@ export interface ChallanExportData {
   fromName: string;
   isReturnable: boolean;
   senderSign: string;
+  receiverName?: string | null;
   date: Date | string;
   totalQty: number;
   totalYdsKg: number;
@@ -208,7 +209,9 @@ export async function generateChallanExcel(data: ChallanExportData): Promise<Buf
     const signBottomRow = signRow + 1;
     worksheet.mergeCells(`A${signBottomRow}:C${signBottomRow}`);
     const receiverSign = worksheet.getCell(`A${signBottomRow}`);
-    receiverSign.value = "Receiver's Signature / Phn: ___________________";
+    receiverSign.value = data.receiverName
+      ? `Receiver's Signature / Phn: ${data.receiverName}`
+      : "Receiver's Signature / Phn: ___________________";
     receiverSign.font = { name: 'Calibri', size: 9 };
 
     worksheet.mergeCells(`D${signBottomRow}:F${signBottomRow}`);

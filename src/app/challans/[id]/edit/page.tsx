@@ -40,6 +40,7 @@ export default async function EditChallanPage({
         fromName: challan.fromName,
         isReturnable: challan.isReturnable,
         senderSign: challan.senderSign,
+        receiverName: challan.receiverName,
         notes: challan.notes,
         date: challan.date,
         items: challan.items.map((i) => ({

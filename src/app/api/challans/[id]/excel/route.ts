@@ -28,6 +28,7 @@ export async function GET(
       fromName: challan.fromName,
       isReturnable: challan.isReturnable,
       senderSign: challan.senderSign,
+      receiverName: challan.receiverName,
       date: challan.date,
       totalQty: challan.totalQty,
       totalYdsKg: challan.totalYdsKg,

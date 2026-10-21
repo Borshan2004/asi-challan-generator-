@@ -24,6 +24,7 @@ interface ChallanFormProps {
     fromName: string;
     isReturnable: boolean;
     senderSign: string;
+    receiverName?: string | null;
     date?: string | Date;
     notes?: string | null;
     items: {
@@ -77,6 +78,7 @@ export default function ChallanForm({ initialData, isEdit = false }: ChallanForm
   const [fromName, setFromName] = useState(initialData?.fromName || 'Ms.Shamoly');
   const [isReturnable, setIsReturnable] = useState(initialData ? initialData.isReturnable : true);
   const [senderSign, setSenderSign] = useState(initialData?.senderSign || 'Srabon (01774-109199)');
+  const [receiverName, setReceiverName] = useState(initialData?.receiverName || '');
   const [notes, setNotes] = useState(initialData?.notes || '1) Receive the above goods in good condition.');
 
   // Initialize with existing data or start with 1 empty row
@@ -205,6 +207,7 @@ export default function ChallanForm({ initialData, isEdit = false }: ChallanForm
         fromName,
         isReturnable,
         senderSign,
+        receiverName: receiverName.trim() || null,
         notes,
         items: validItems,
       };
@@ -469,10 +472,10 @@ export default function ChallanForm({ initialData, isEdit = false }: ChallanForm
         {/* Challan Policy & Sender Information Card */}
         <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-600 mb-4 pb-2 border-b border-slate-100">
-            Sender & Returnable Policy
+            Sender, Receiver & Returnable Policy
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
                 From Name
@@ -513,7 +516,20 @@ export default function ChallanForm({ initialData, isEdit = false }: ChallanForm
               />
             </div>
 
-            <div className="sm:col-span-3">
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
+                Receiver Name / Phn (Beside Sign)
+              </label>
+              <input
+                type="text"
+                value={receiverName}
+                onChange={(e) => setReceiverName(e.target.value)}
+                placeholder="e.g. Mr. Tutul (017...)"
+                className="w-full px-3 py-2 text-sm border border-slate-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white"
+              />
+            </div>
+
+            <div className="sm:col-span-2 lg:col-span-4">
               <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Footer Note
               </label>

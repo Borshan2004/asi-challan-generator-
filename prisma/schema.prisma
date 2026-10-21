@@ -37,6 +37,7 @@ model Challan {
   fromName     String        @default("Ms.Shamoly")
   isReturnable Boolean       @default(true) // true = (Returnable), false = (Not Returnable)
   senderSign   String        @default("Srabon (01774-109199)")
+  receiverName String?       // Receiver's Name / Phone beside signature
   date         DateTime      @default(now())
   totalQty     Int           @default(0)
   totalYdsKg   Float         @default(0.0)
