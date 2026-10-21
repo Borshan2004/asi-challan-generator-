@@ -35,9 +35,10 @@ export async function PUT(
 ) {
   try {
     const session = await getSession();
-    if (!session || session.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Unauthorized. Admin access required.' }, { status: 403 });
+    if (!session) {
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
+    // Both ADMIN and USER can edit challans
 
     const body = await request.json();
     const {

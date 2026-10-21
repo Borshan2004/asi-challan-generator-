@@ -79,10 +79,10 @@ export default function ChallanForm({ initialData, isEdit = false }: ChallanForm
   const [senderSign, setSenderSign] = useState(initialData?.senderSign || 'Srabon (01774-109199)');
   const [notes, setNotes] = useState(initialData?.notes || '1) Receive the above goods in good condition.');
 
-  // Initialize with at least 8 rows (matching standard challan slip)
+  // Initialize with existing data or start with 1 empty row
   const [items, setItems] = useState<ChallanItemInput[]>(() => {
     if (initialData?.items && initialData.items.length > 0) {
-      const existing = initialData.items.map((it, idx) => ({
+      return initialData.items.map((it, idx) => ({
         slNo: idx + 1,
         particular: it.particular || '',
         qty: it.qty ?? '',
@@ -90,28 +90,17 @@ export default function ChallanForm({ initialData, isEdit = false }: ChallanForm
         ydsKg: it.ydsKg ?? '',
         ydsUnit: it.ydsUnit || 'yds',
       }));
-
-      while (existing.length < 8) {
-        existing.push({
-          slNo: existing.length + 1,
-          particular: '',
-          qty: '',
-          unit: 'Pcs',
-          ydsKg: '',
-          ydsUnit: 'yds',
-        });
-      }
-      return existing;
     }
 
-    return Array.from({ length: 8 }, (_, i) => ({
-      slNo: i + 1,
+    // Start with just 1 row — user adds more as needed
+    return [{
+      slNo: 1,
       particular: '',
       qty: '',
       unit: 'Pcs',
       ydsKg: '',
       ydsUnit: 'yds',
-    }));
+    }];
   });
 
   // Fetch suggestions from database
@@ -363,12 +352,12 @@ export default function ChallanForm({ initialData, isEdit = false }: ChallanForm
             </button>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-visible min-h-[240px]">
             <table className="w-full text-left text-xs sm:text-sm border-collapse">
               <thead>
                 <tr className="bg-slate-50 border-y border-slate-200 text-slate-700 font-semibold text-xs">
                   <th className="py-2 px-2 w-12 text-center">Sl.No</th>
-                  <th className="py-2 px-3">Particulars</th>
+                  <th className="py-2 px-3">Particulars (Garment Items)</th>
                   <th className="py-2 px-2 w-24">Qty</th>
                   <th className="py-2 px-2 w-24">Unit</th>
                   <th className="py-2 px-2 w-28">YDS/KG</th>
@@ -378,16 +367,20 @@ export default function ChallanForm({ initialData, isEdit = false }: ChallanForm
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {items.map((item, index) => (
-                  <tr key={index} className="hover:bg-slate-50/70 transition">
+                  <tr
+                    key={index}
+                    className="hover:bg-slate-50/70 transition relative"
+                    style={{ zIndex: items.length - index + 20 }}
+                  >
                     <td className="py-2 px-2 text-center text-slate-500 font-medium">
                       {index + 1}
                     </td>
-                    <td className="py-2 px-3">
+                    <td className="py-2 px-3 relative">
                       <ParticularCombobox
                         value={item.particular}
                         suggestions={suggestions}
                         onChange={(val) => handleItemChange(index, 'particular', val)}
-                        placeholder={`Item ${index + 1} (e.g. Polo shirt, Sample...)`}
+                        placeholder={`Select or type item ${index + 1} (e.g. Polo shirt, Sample...)`}
                       />
                     </td>
                     <td className="py-2 px-2">
@@ -454,7 +447,7 @@ export default function ChallanForm({ initialData, isEdit = false }: ChallanForm
           <div className="mt-4 pt-3 border-t border-slate-200 flex flex-wrap justify-between items-center bg-slate-50 p-3 rounded-md">
             <div className="text-xs text-slate-500 flex items-center">
               <Info className="w-3.5 h-3.5 mr-1.5 text-blue-500" />
-              <span>Rows can be added anytime. Standard Challan sheet prints 8 rows per slip.</span>
+              <span>Start with 1 row. Add more rows as needed using the &quot;+ Add Row&quot; button above.</span>
             </div>
             <div className="flex items-center space-x-6 text-sm font-semibold">
               <div>

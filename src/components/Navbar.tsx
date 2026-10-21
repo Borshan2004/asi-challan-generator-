@@ -70,7 +70,7 @@ export default function Navbar() {
               </div>
             </Link>
 
-            {user?.role === 'ADMIN' && (
+            {user && (
               <Link
                 href="/challans/new"
                 className={`px-3 py-2 rounded-md text-sm font-medium transition ${

@@ -60,9 +60,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
 
-    if (session.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Only admins can create challans' }, { status: 403 });
-    }
+    // Both ADMIN and USER can create challans
 
     const body = await request.json();
     const {

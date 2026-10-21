@@ -51,9 +51,9 @@ export default function ChallanPrintPreview({
 
   const formattedDate = formatChallanDate(challan.date);
 
-  // Normalize items to exactly 8 rows
+  // Provide at least 3 display rows for visual balance if user entered 1 or 2 items
   const displayItems = [...challan.items];
-  while (displayItems.length < 8) {
+  while (displayItems.length < 3) {
     displayItems.push({
       slNo: displayItems.length + 1,
       particular: '',
@@ -64,7 +64,7 @@ export default function ChallanPrintPreview({
     });
   }
 
-  // Handle native browser print (which uses @page A4 for perfect 2-slip rendering)
+  // Handle native browser print
   const handlePrint = () => {
     window.print();
   };
@@ -130,118 +130,119 @@ export default function ChallanPrintPreview({
     }
   };
 
-  // Reusable Single Slip Component
+  // Reusable Single Slip Component with rock-solid spacing and borders
   const renderSlip = (copyLabel?: string) => (
-    <div className="challan-slip bg-white p-6 border border-slate-300 rounded shadow-none text-black select-none text-[12px] leading-tight">
+    <div className="challan-slip bg-white p-6 border border-slate-300 rounded shadow-none text-black select-none text-[12px] leading-normal">
       {/* 1. Header with Logo & Address */}
-      <div className="flex items-start justify-between pb-2">
+      <div className="flex items-start justify-between pb-3 border-b border-slate-200">
         {/* ASI Logo Icon */}
         <div className="flex items-center space-x-3">
-          <div className="w-14 h-12 bg-slate-900 text-white font-extrabold flex items-center justify-center text-xl tracking-tighter rounded-sm">
+          <div className="w-14 h-12 bg-slate-900 text-white font-extrabold flex items-center justify-center text-xl tracking-tighter rounded-sm flex-shrink-0">
             ASI
           </div>
           <div className="flex flex-col">
             <h2 className="text-[17px] font-bold text-black tracking-tight leading-tight">
               Apparel Sourcing International Inc
             </h2>
-            <p className="text-[10px] text-slate-800 leading-tight">
+            <p className="text-[10px] text-slate-800 leading-normal mt-0.5">
               Anukul, House# 30, Apt# B-3, (3rd Floor) Western Road,
             </p>
-            <p className="text-[10px] text-slate-800 leading-tight">
+            <p className="text-[10px] text-slate-800 leading-normal">
               Banani DOHS, Dhaka-1206, Bangladesh. Ph: 880-2-8715826, 8715827, 8715779
             </p>
           </div>
         </div>
 
         {/* Challan Title & Number */}
-        <div className="text-right">
-          <div className="text-[18px] font-extrabold tracking-wider underline mr-6">
+        <div className="text-right flex-shrink-0">
+          <div className="text-[18px] font-extrabold tracking-wider underline">
             CHALLAN
           </div>
-          <div className="mt-1 flex items-center justify-end text-[12px]">
-            <span className="font-bold mr-1.5">Challan No:</span>
+          <div className="mt-1.5 flex items-center justify-end text-[12px]">
+            <span className="font-bold mr-1.5 text-slate-800">Challan No:</span>
             <span className="font-extrabold text-[13px] bg-slate-100 px-2 py-0.5 rounded border border-slate-300">
               {challan.challanNo}
             </span>
           </div>
           {copyLabel && (
-            <span className="text-[9px] uppercase tracking-wider text-slate-400 font-semibold">
+            <div className="mt-1 text-[10px] uppercase tracking-wider text-slate-500 font-bold">
               {copyLabel}
-            </span>
+            </div>
           )}
         </div>
       </div>
 
       {/* 2. Top Info Box (Name, Address, Date, Ref. No) */}
-      <div className="border border-black mt-2 grid grid-cols-12 text-[11px]">
+      <div className="border border-black my-2.5 grid grid-cols-12 text-[11px] bg-white">
         {/* Left Column (Name & Address) */}
-        <div className="col-span-8 p-1.5 border-r border-black space-y-1">
+        <div className="col-span-8 p-2 border-r border-black space-y-1">
           <div className="flex">
-            <span className="w-20 font-bold">Name :</span>
-            <span className="font-semibold">{challan.name}</span>
+            <span className="w-20 font-bold text-slate-900 shrink-0">Name :</span>
+            <span className="font-semibold text-black">{challan.name}</span>
           </div>
           <div className="flex">
-            <span className="w-20 font-bold">Address :</span>
-            <span>{challan.address}</span>
+            <span className="w-20 font-bold text-slate-900 shrink-0">Address :</span>
+            <span className="text-black">{challan.address}</span>
           </div>
         </div>
 
         {/* Right Column (Date & Ref No) */}
-        <div className="col-span-4 p-1.5 space-y-1">
+        <div className="col-span-4 p-2 space-y-1">
           <div className="flex">
-            <span className="w-18 font-bold">Date :</span>
-            <span className="font-semibold">{formattedDate}</span>
+            <span className="w-20 font-bold text-slate-900 shrink-0">Date :</span>
+            <span className="font-semibold text-black">{formattedDate}</span>
           </div>
           <div className="flex">
-            <span className="w-18 font-bold">Ref. No. :</span>
-            <span>{challan.refNo || '-'}</span>
+            <span className="w-20 font-bold text-slate-900 shrink-0">Ref. No. :</span>
+            <span className="text-black">{challan.refNo || '-'}</span>
           </div>
         </div>
       </div>
 
-      {/* 3. Items Table */}
-      <div className="border-x border-b border-black">
-        <table className="w-full text-left text-[11px] border-collapse">
+      {/* 3. Items Table - Pure HTML Table for Zero Overlap */}
+      <div className="my-2.5">
+        <table className="w-full text-left text-[11px] border-collapse border border-black">
           <thead>
             <tr className="border-b border-black text-center font-bold bg-slate-50">
-              <th className="w-12 py-1 border-r border-black">Sl.No</th>
-              <th className="py-1 px-3 border-r border-black text-left">Particulars</th>
-              <th className="w-24 py-1 border-r border-black">Qty.</th>
-              <th className="w-28 py-1">YDS/KG</th>
+              <th className="w-12 py-1.5 border-r border-black text-center font-bold">Sl.No</th>
+              <th className="py-1.5 px-3 border-r border-black text-left font-bold">Particulars</th>
+              <th className="w-24 py-1.5 border-r border-black text-center font-bold">Qty.</th>
+              <th className="w-28 py-1.5 text-center font-bold">YDS/KG</th>
             </tr>
           </thead>
           <tbody>
             {displayItems.map((item, idx) => (
-              <tr key={idx} className="h-6 border-b border-dotted border-slate-300 text-center">
-                <td className="border-r border-black font-medium">{idx + 1}</td>
-                <td className="px-3 border-r border-black text-left font-normal truncate max-w-[260px]">
+              <tr key={idx} className="border-b border-slate-300 border-dotted text-center">
+                <td className="border-r border-black py-1.5 px-2 font-medium">{idx + 1}</td>
+                <td className="border-r border-black py-1.5 px-3 text-left font-normal truncate max-w-[260px]">
                   {item.particular || ''}
                 </td>
-                <td className="border-r border-black font-medium">
+                <td className="border-r border-black py-1.5 px-2 font-medium">
                   {item.qty ? `${item.qty} ${item.unit || 'Pcs'}` : ''}
                 </td>
-                <td className="font-medium">
+                <td className="py-1.5 px-2 font-medium">
                   {item.ydsKg ? `${item.ydsKg} ${item.ydsUnit || 'yds'}` : ''}
                 </td>
               </tr>
             ))}
           </tbody>
+          <tfoot>
+            <tr className="border-t-2 border-black bg-slate-50 font-bold text-[11px]">
+              <td colSpan={2} className="border-r border-black py-2 px-3">
+                <div className="flex justify-between items-center">
+                  <span>From: {challan.fromName || 'Ms.Shamoly'}</span>
+                  <span className="italic">{challan.isReturnable ? '(Returnable)' : '(Not Returnable)'}</span>
+                </div>
+              </td>
+              <td className="border-r border-black py-2 px-2 text-center whitespace-nowrap">
+                Total- {challan.totalQty} pcs
+              </td>
+              <td className="py-2 px-2 text-center whitespace-nowrap">
+                {challan.totalYdsKg} yds
+              </td>
+            </tr>
+          </tfoot>
         </table>
-
-        {/* Table Bottom: From, Returnable, Totals */}
-        <div className="border-t border-black grid grid-cols-12 items-center px-3 py-1.5 text-[11px] bg-slate-50/50">
-          <div className="col-span-4 font-bold">
-            From: {challan.fromName || 'Ms.Shamoly'}
-          </div>
-          <div className="col-span-4 text-center font-bold italic">
-            {challan.isReturnable ? '(Returnable)' : '(Not Returnable)'}
-          </div>
-          <div className="col-span-4 text-right flex justify-end space-x-3 font-bold">
-            <span>Total-</span>
-            <span>{challan.totalQty} pcs</span>
-            <span>{challan.totalYdsKg} yds</span>
-          </div>
-        </div>
       </div>
 
       {/* 4. Notes & Signatures */}
@@ -249,15 +250,21 @@ export default function ChallanPrintPreview({
         <p className="italic">{challan.notes || '1) Receive the above goods in good condition.'}</p>
       </div>
 
-      <div className="mt-8 flex justify-between items-end text-[11px] pt-1">
-        <div className="border-t border-slate-600 pt-1 w-64 text-slate-800">
-          Receiver&apos;s Signature / Phn:
+      <div className="mt-8 flex justify-between items-end text-[11px] pt-2">
+        {/* Receiver Signature Line */}
+        <div className="w-60 text-left">
+          <div className="h-6"></div>
+          <div className="border-t border-black pt-1 text-[11px] font-semibold text-slate-900">
+            Receiver&apos;s Signature / Phn:
+          </div>
         </div>
-        <div className="text-center">
-          <div className="font-bold text-slate-900 text-[10px]">
+
+        {/* Sender / Company Signature Line */}
+        <div className="w-60 text-center">
+          <div className="text-[11px] font-bold text-slate-900 pb-1.5">
             {challan.senderSign || 'Srabon (01774-109199)'}
           </div>
-          <div className="border-t border-slate-600 pt-1 font-bold text-slate-900">
+          <div className="border-t border-black pt-1 font-bold text-slate-900 text-[11px]">
             For-Apparel Sourcing int&apos;l inc
           </div>
         </div>
@@ -312,8 +319,8 @@ export default function ChallanPrintPreview({
             Download Excel
           </button>
 
-          {/* Admin Controls: Edit & Delete */}
-          {currentUserRole === 'ADMIN' && (
+          {/* Edit - available to all users */}
+          {currentUserRole && (
             <>
               <span className="text-slate-300">|</span>
               <Link
@@ -323,15 +330,19 @@ export default function ChallanPrintPreview({
                 <Edit className="w-3.5 h-3.5 mr-1" />
                 Edit
               </Link>
-              <button
-                onClick={handleDelete}
-                disabled={deleting}
-                className="inline-flex items-center px-2.5 py-1.5 text-xs font-semibold text-red-700 bg-red-50 hover:bg-red-100 rounded border border-red-300 transition"
-              >
-                <Trash2 className="w-3.5 h-3.5 mr-1" />
-                {deleting ? 'Deleting...' : 'Delete'}
-              </button>
             </>
+          )}
+
+          {/* Delete - Admin only */}
+          {currentUserRole === 'ADMIN' && (
+            <button
+              onClick={handleDelete}
+              disabled={deleting}
+              className="inline-flex items-center px-2.5 py-1.5 text-xs font-semibold text-red-700 bg-red-50 hover:bg-red-100 rounded border border-red-300 transition"
+            >
+              <Trash2 className="w-3.5 h-3.5 mr-1" />
+              {deleting ? 'Deleting...' : 'Delete'}
+            </button>
           )}
         </div>
       </div>
@@ -346,7 +357,7 @@ export default function ChallanPrintPreview({
         {renderSlip('Office Copy')}
 
         {/* Perforated Cutting Line with Scissor Icon */}
-        <div className="flex items-center my-3 relative select-none">
+        <div className="flex items-center my-4 relative select-none">
           <div className="flex-grow border-t-2 border-dashed border-slate-400"></div>
           <div className="px-3 flex items-center text-[10px] text-slate-500 font-semibold bg-white">
             <Scissors className="w-3.5 h-3.5 mr-1 text-slate-500" />

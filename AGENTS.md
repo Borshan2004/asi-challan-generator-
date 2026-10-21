@@ -18,4 +18,4 @@ Web-based Challan PDF & Excel Generator for **Apparel Sourcing International Inc
 5. **Print Layout:** Must render two identical copies ("same to same") on a single portrait A4 page separated by a dotted cut line.
 6. **Role Permissions:**
    - `ADMIN`: Allowed to create, edit, delete, view, export.
-   - `USER`: Allowed to view and export only. Server-side mutations reject non-admin users with 403.
+   - `USER`: Allowed to create, edit, view, and export. Server-side delete rejects non-admin users with 403.

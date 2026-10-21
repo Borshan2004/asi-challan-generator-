@@ -135,9 +135,10 @@ export async function generateChallanExcel(data: ChallanExportData): Promise<Buf
       };
     });
 
-    // 5. Table Rows (8 rows fixed)
+    // 5. Table Rows (dynamic based on actual item count)
+    const itemCount = Math.max(data.items.length, 1); // At least 1 row
     const itemsStartRow = tableHeaderRow + 1;
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < itemCount; i++) {
       const currentRow = itemsStartRow + i;
       const item = data.items[i];
 
@@ -155,13 +156,13 @@ export async function generateChallanExcel(data: ChallanExportData): Promise<Buf
         cell.border = {
           left: { style: 'thin' },
           right: { style: 'thin' },
-          bottom: i === 7 ? { style: 'thin' } : { style: 'dotted' },
+          bottom: i === itemCount - 1 ? { style: 'thin' } : { style: 'dotted' },
         };
       });
     }
 
     // 6. From & Returnable row
-    const footerMetaRow = itemsStartRow + 8;
+    const footerMetaRow = itemsStartRow + itemCount;
     worksheet.getCell(`B${footerMetaRow}`).value = `From: ${data.fromName}`;
     worksheet.getCell(`B${footerMetaRow}`).font = { name: 'Calibri', size: 10, bold: true };
 
@@ -220,8 +221,13 @@ export async function generateChallanExcel(data: ChallanExportData): Promise<Buf
   // Render First Copy (Top)
   renderSlip(1);
 
+  // Calculate dynamic second copy start row based on actual item count
+  // Each slip takes: 7 header rows + 1 table header + itemCount data rows + 6 footer rows = 14 + itemCount
+  const slipHeight = 14 + Math.max(data.items.length, 1);
+  const secondSlipStart = slipHeight + 3; // 3 row gap between slips
+
   // Render Second Copy (Bottom - "Same to same" on single A4 sheet)
-  renderSlip(28);
+  renderSlip(secondSlipStart);
 
   const buffer = await workbook.xlsx.writeBuffer();
   return Buffer.from(buffer);

@@ -114,7 +114,7 @@ export default function ChallansListPage() {
         </div>
 
         <div className="flex items-center space-x-3">
-          {isAdmin ? (
+          {currentUser ? (
             <Link
               href="/challans/new"
               className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-sm transition"
@@ -122,12 +122,7 @@ export default function ChallansListPage() {
               <PlusCircle className="w-4 h-4 mr-1.5" />
               Generate New Challan
             </Link>
-          ) : (
-            <div className="inline-flex items-center text-xs bg-slate-100 text-slate-600 px-3 py-1.5 rounded-md border border-slate-200">
-              <Eye className="w-3.5 h-3.5 mr-1.5 text-slate-500" />
-              View & Download Mode (Read-Only)
-            </div>
-          )}
+          ) : null}
         </div>
       </div>
 
@@ -248,16 +243,20 @@ export default function ChallansListPage() {
                         <FileSpreadsheet className="w-3.5 h-3.5" />
                       </a>
 
-                      {/* Admin Actions */}
+                      {/* Edit - available to all logged-in users */}
+                      {currentUser && (
+                        <Link
+                          href={`/challans/${ch.id}/edit`}
+                          title="Edit Challan"
+                          className="inline-flex items-center px-2 py-1 text-xs font-medium text-amber-800 bg-amber-50 hover:bg-amber-100 rounded border border-amber-200 transition"
+                        >
+                          <Edit className="w-3.5 h-3.5" />
+                        </Link>
+                      )}
+
+                      {/* Delete - Admin only */}
                       {isAdmin && (
                         <>
-                          <Link
-                            href={`/challans/${ch.id}/edit`}
-                            title="Edit Challan"
-                            className="inline-flex items-center px-2 py-1 text-xs font-medium text-amber-800 bg-amber-50 hover:bg-amber-100 rounded border border-amber-200 transition"
-                          >
-                            <Edit className="w-3.5 h-3.5" />
-                          </Link>
                           <button
                             type="button"
                             onClick={() => handleDelete(ch.id, ch.challanNo)}
