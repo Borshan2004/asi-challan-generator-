@@ -32,3 +32,4 @@ next-env.d.ts
 
 # SQLite local database
 prisma/*.db-journal
+.env
