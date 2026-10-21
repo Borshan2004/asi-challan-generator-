@@ -61,5 +61,6 @@ body {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
     background: #ffffff !important;
+    border: none !important;
   }
 }

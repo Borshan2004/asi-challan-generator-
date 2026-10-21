@@ -123,9 +123,9 @@ export default function ChallanPrintPreview({
 
   // Reusable Single Slip Component with pure white backgrounds and crisp borders
   const renderSlip = (copyLabel?: string) => (
-    <div className="challan-slip bg-white p-4 sm:p-5 border border-black rounded-none shadow-none text-black select-none text-[11px] leading-normal">
+    <div className="challan-slip bg-white p-4 sm:p-5 border-0 rounded-none shadow-none text-black select-none text-[11px] leading-normal">
       {/* 1. Header with Logo & Address */}
-      <div className="flex items-start justify-between pb-2 border-b border-black bg-white">
+      <div className="flex items-start justify-between pb-2 bg-white">
         {/* ASI Logo Icon */}
         <div className="flex items-center space-x-3">
           <img
@@ -348,7 +348,7 @@ export default function ChallanPrintPreview({
       {/* The Printable Page Container: Fits exactly on ONE single A4 Sheet */}
       <div
         ref={printAreaRef}
-        className="print-page bg-white p-3 sm:p-5 rounded-lg border border-slate-200 shadow-sm space-y-3"
+        className="print-page bg-white p-3 sm:p-5 rounded-none border-0 shadow-none space-y-3"
       >
         {/* Slip 1: Top Copy */}
         {renderSlip('Office Copy')}
