@@ -97,9 +97,11 @@ export default function LoginPage() {
     <div className="min-h-screen bg-slate-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <div className="inline-flex w-16 h-16 bg-slate-900 text-white font-extrabold rounded-xl items-center justify-center text-2xl shadow-lg mb-4">
-          ASI
-        </div>
+        <img
+          src="/asi-logo.png"
+          alt="ASI Logo"
+          className="w-16 h-16 object-contain mx-auto mb-4 drop-shadow-sm"
+        />
         <h2 className="text-2xl font-bold tracking-tight text-slate-900">
           Apparel Sourcing International Inc
         </h2>

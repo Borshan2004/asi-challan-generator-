@@ -128,9 +128,11 @@ export default function ChallanPrintPreview({
       <div className="flex items-start justify-between pb-2 border-b border-black bg-white">
         {/* ASI Logo Icon */}
         <div className="flex items-center space-x-3">
-          <div className="w-13 h-11 bg-black text-white font-extrabold flex items-center justify-center text-lg tracking-tighter rounded-none flex-shrink-0 px-2 py-1">
-            ASI
-          </div>
+          <img
+            src="/asi-logo.png"
+            alt="ASI Logo"
+            className="w-12 h-11 object-contain flex-shrink-0"
+          />
           <div className="flex flex-col">
             <h2 className="text-[16px] font-bold text-black tracking-tight leading-tight">
               Apparel Sourcing International Inc

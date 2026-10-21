@@ -42,9 +42,11 @@ export default function Navbar() {
           {/* Brand */}
           <div className="flex items-center space-x-3">
             <Link href="/challans" className="flex items-center space-x-2">
-              <div className="w-9 h-9 bg-slate-900 text-white font-bold rounded flex items-center justify-center text-sm shadow">
-                ASI
-              </div>
+              <img
+                src="/asi-logo.png"
+                alt="ASI Logo"
+                className="w-10 h-10 object-contain rounded shadow-sm"
+              />
               <div className="flex flex-col">
                 <span className="font-bold text-slate-900 text-base leading-tight">
                   Apparel Sourcing International Inc
