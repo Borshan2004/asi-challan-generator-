@@ -133,7 +133,7 @@ export default function ChallanPrintPreview({
             <img
               src="/asi-logo.png"
               alt="ASI Logo"
-              className="w-12 h-11 object-contain flex-shrink-0"
+              className="w-13 h-11 object-contain flex-shrink-0"
             />
             <div className="flex flex-col">
               <h2 className="text-[16px] font-bold text-black tracking-tight leading-tight">

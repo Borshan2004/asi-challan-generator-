@@ -45,7 +45,7 @@ export default function Navbar() {
               <img
                 src="/asi-logo.png"
                 alt="ASI Logo"
-                className="w-10 h-10 object-contain rounded shadow-sm"
+                className="w-11 h-10 object-contain"
               />
               <div className="flex flex-col">
                 <span className="font-bold text-slate-900 text-base leading-tight">

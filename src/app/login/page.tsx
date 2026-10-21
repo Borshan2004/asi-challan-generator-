@@ -100,7 +100,7 @@ export default function LoginPage() {
         <img
           src="/asi-logo.png"
           alt="ASI Logo"
-          className="w-16 h-16 object-contain mx-auto mb-4 drop-shadow-sm"
+          className="w-20 h-16 object-contain mx-auto mb-3"
         />
         <h2 className="text-2xl font-bold tracking-tight text-slate-900">
           Apparel Sourcing International Inc
